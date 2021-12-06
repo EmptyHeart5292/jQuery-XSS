@@ -11,7 +11,7 @@ jQuery with XSS, Testing and Secure Version
 - [#9521](https://bugs.jquery.com/ticket/9521)
 - [#11290](https://bugs.jquery.com/ticket/11290)
 - [#11974](https://bugs.jquery.com/ticket/11974)
-- [#CVE-2020-11022/CVE-2020-11023]((https://cloud.tencent.com/developer/article/1638163))
+- [#CVE-2020-11022/CVE-2020-11023](https://cloud.tencent.com/developer/article/1638163)
 
 ## Test version:
 
