@@ -2,7 +2,7 @@
 
 jQuery with XSS, Testing and Secure Version
 
-修复了参考版本中9521和11290无法弹窗的问题，并新增3个新的XSSpayload
+修复了参考版本中9521和11290无法弹窗的问题，11974新增一个payload，可以验证一些之前11974无法验证的jQuery，并新增3个新的XSSpayload
 
 使用时只需要修改开头<script>标签里的src即可
 
